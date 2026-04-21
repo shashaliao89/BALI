@@ -42,7 +42,7 @@ export function GuidesIntro() {
                     sizes="(max-width: 640px) 96px, 144px"
                   />
                 </div>
-                <div className="min-w-0 flex-1 pt-0.5">
+                <div className="min-w-0 flex-1 pt-0">
                   <h3 className="font-serif text-xl text-[#8B4513] sm:text-2xl md:text-3xl">
                     {g.name}
                   </h3>

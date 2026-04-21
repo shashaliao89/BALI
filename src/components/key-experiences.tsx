@@ -18,19 +18,19 @@ const ROWS: Row[] = [
   },
   {
     title: "淨水祝福",
-    body: "藉由水的純淨能量進行心靈洗滌，感受身心與大自然的和諧連結與祝福。",
+    body: "藉由水的純淨能量進行心靈洗滌，感受身心與大自然的和諧連結與祝福，為靈魂注入寧靜與智慧的啟發。",
     image: "/跑步.jpg",
     alt: "稻田與晨光",
   },
   {
     title: "冰浴體驗",
-    body: "挑戰感官與意志的極致體驗，學習與恐懼共處，重新連結內在力量。",
+    body: "挑戰感官與意志的極致體驗，透過冷熱交替活化細胞，學習與恐懼共處，達到深層的修復與覺醒。",
     image: "/冰浴.jpg",
     alt: "水與療癒意象",
   },
   {
     title: "瑜伽與冥想",
-    body: "透過溫和的伸展與深度呼吸，讓思緒沉降，為靈魂開啟一場溫柔的對話。",
+    body: "透過溫和的伸展與深度呼吸，讓思緒沉降，開啟身體的覺知，釋放深層壓力。",
     image:
       "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=85&w=1400&auto=format&fit=crop",
     alt: "瑜伽與冥想",
@@ -49,7 +49,7 @@ export function KeyExperiences() {
       <div className="mx-auto max-w-6xl">
         <FadeIn>
           <h2 className="text-center font-serif text-3xl text-[#3d3428] md:text-4xl">
-            ＡＷＥＫＥＮＤ ＹＯＵＲ ＳＯＵＬ
+            AWEKEND YOUR SOUL
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-center font-sans text-sm text-[#6b6258] md:text-base">
             精心安排的體驗，每一站都是與自己相遇的儀式。
