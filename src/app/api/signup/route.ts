@@ -25,7 +25,7 @@ export async function POST(req: Request) {
   const { cohortLabel, name, phone, lineId, email, notes, participantCount } = body;
   const count = Math.max(
     1,
-    Math.min(20, Number.isFinite(participantCount) ? Math.floor(participantCount as number) : 1),
+    Math.min(25, Number.isFinite(participantCount) ? Math.floor(participantCount as number) : 1),
   );
   if (
     !cohortLabel?.trim() ||

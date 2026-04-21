@@ -342,6 +342,7 @@ export function BookingModule() {
                   <input
                     type="number"
                     min={1}
+                    max={25}
                     className="mt-1.5 w-full border border-[#8B4513]/15 bg-white/70 px-3 py-2.5 font-sans text-[#3d3428] outline-none transition focus:border-[#8f6b3f] focus:bg-white"
                     value={form.notes}
                     onChange={(e) =>
