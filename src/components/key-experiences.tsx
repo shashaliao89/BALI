@@ -30,7 +30,7 @@ const ROWS: Row[] = [
   },
   {
     title: "瑜伽與冥想",
-    body: "透過溫和的伸展與深度呼吸，讓思緒沉降，開啟身體的覺知，釋放深層壓力。",
+    body: "透過溫和的伸展與深度呼吸，讓思緒沉降，開啟身體的覺知。",
     image:
       "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=85&w=1400&auto=format&fit=crop",
     alt: "瑜伽與冥想",
