@@ -155,8 +155,7 @@ export function BookingModule() {
             預約你的梯次
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-center font-sans text-[15px] leading-relaxed text-[#3f484a] md:text-base">
-            選擇適合你的日期，留下聯絡方式，STEPC
-            團隊將與你確認細節。
+            選擇適合你的日期，STEPC團隊將與你確認訂單。
           </p>
           <p className="mx-auto mt-2 max-w-2xl text-center font-sans text-sm text-[#5b6769] md:text-[15px]">
             更多梯次將陸續公布
