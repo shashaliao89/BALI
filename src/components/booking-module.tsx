@@ -59,7 +59,43 @@ function bookingMeta(cohort: Cohort) {
   const distanceToGroup = Math.max(0, MIN_GROUP_SIZE - registered);
   const status: BookingStatus =
     remaining <= 0 ? "full" : remaining <= 3 ? "tight" : "available";
-  return { registered, remaining, distanceToGroup, status };
+  const daysToDeparture = getDaysToDeparture(cohort.label);
+  return { registered, remaining, distanceToGroup, status, daysToDeparture };
+}
+
+function getDaysToDeparture(label: string): number | null {
+  const m = label.match(
+    /^(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)\s+(\d{1,2})(?:\s*[–-]\s*\d{1,2})?,\s*(\d{4})/i,
+  );
+  if (!m) return null;
+
+  const monthName = m[1].toUpperCase();
+  const day = Number.parseInt(m[2], 10);
+  const year = Number.parseInt(m[3], 10);
+  const monthMap: Record<string, number> = {
+    JANUARY: 0,
+    FEBRUARY: 1,
+    MARCH: 2,
+    APRIL: 3,
+    MAY: 4,
+    JUNE: 5,
+    JULY: 6,
+    AUGUST: 7,
+    SEPTEMBER: 8,
+    OCTOBER: 9,
+    NOVEMBER: 10,
+    DECEMBER: 11,
+  };
+  const month = monthMap[monthName];
+  if (month === undefined || !Number.isFinite(day) || !Number.isFinite(year)) {
+    return null;
+  }
+
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const departure = new Date(year, month, day);
+  const msPerDay = 24 * 60 * 60 * 1000;
+  return Math.ceil((departure.getTime() - today.getTime()) / msPerDay);
 }
 
 type FormState = {
@@ -220,13 +256,25 @@ export function BookingModule() {
                         </span>
                       </span>
                     </p>
-                    <p className="flex items-baseline justify-between gap-3">
+                    <p className="flex items-baseline justify-between gap-3 border-b border-[#708487]/14 pb-2">
                       <span className="text-[#374143]">剩餘名額</span>
                       <span className="font-serif text-[1.2rem] font-semibold tabular-nums text-[#162124] md:text-[1.35rem]">
                         {meta.remaining}
                         <span className="text-sm text-[#4d585b] md:text-base">
                           {" "}
                           位
+                        </span>
+                      </span>
+                    </p>
+                    <p className="flex items-baseline justify-between gap-3">
+                      <span className="text-[#374143]">距離出發</span>
+                      <span className="font-serif text-[1.12rem] font-semibold tabular-nums text-[#111a1c] md:text-xl">
+                        {meta.daysToDeparture === null
+                          ? "—"
+                          : Math.max(0, meta.daysToDeparture)}
+                        <span className="text-sm text-[#4d585b] md:text-base">
+                          {" "}
+                          天
                         </span>
                       </span>
                     </p>

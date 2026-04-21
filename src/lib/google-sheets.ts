@@ -17,7 +17,7 @@ export type SignupRow = {
   notes?: string;
 };
 
-const MAX_CAPACITY = 20;
+const MAX_CAPACITY = 25;
 const DEFAULT_COHORT_LABELS = [
   "JUNE 8 – 9, 2026",
   "JUNE 15 – 16, 2026",
