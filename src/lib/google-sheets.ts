@@ -23,19 +23,44 @@ const DEFAULT_COHORT_LABELS = [
   "JUNE 15 – 16, 2026",
 ];
 
-function readRequiredEnv(keys: string[]): string | null {
-  for (const k of keys) {
-    const v = process.env[k];
-    if (!v) return null;
+/** 本機開發可用檔案路徑；Vercel 等雲端請用 GOOGLE_SERVICE_ACCOUNT_JSON */
+function getServiceAccountCredentials(): Record<string, unknown> {
+  const inline = process.env.GOOGLE_SERVICE_ACCOUNT_JSON?.trim();
+  if (inline) {
+    try {
+      return JSON.parse(inline) as Record<string, unknown>;
+    } catch {
+      throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON 不是合法 JSON");
+    }
   }
-  return "ok";
+  const filePath = process.env.GOOGLE_SERVICE_ACCOUNT_FILE?.trim();
+  if (filePath) {
+    return JSON.parse(fs.readFileSync(filePath, "utf8")) as Record<
+      string,
+      unknown
+    >;
+  }
+  throw new Error(
+    "缺少 Google 憑證：請設定 GOOGLE_SERVICE_ACCOUNT_JSON 或 GOOGLE_SERVICE_ACCOUNT_FILE",
+  );
+}
+
+function hasGoogleSheetsEnv(): boolean {
+  const hasCreds = Boolean(
+    process.env.GOOGLE_SERVICE_ACCOUNT_JSON?.trim() ||
+      process.env.GOOGLE_SERVICE_ACCOUNT_FILE?.trim(),
+  );
+  return Boolean(
+    hasCreds &&
+      process.env.GOOGLE_SHEET_SPREADSHEET_ID &&
+      process.env.GOOGLE_SHEET_RANGE,
+  );
 }
 
 function getSheetsClient() {
-  const serviceAccountFile = process.env.GOOGLE_SERVICE_ACCOUNT_FILE as string;
-  const json = JSON.parse(fs.readFileSync(serviceAccountFile, "utf8"));
+  const credentials = getServiceAccountCredentials();
   const auth = new google.auth.GoogleAuth({
-    credentials: json,
+    credentials,
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
   return google.sheets({ version: "v4", auth });
@@ -62,19 +87,12 @@ function getSeedCohortLabels(): string[] {
 export async function appendSignupToGoogleSheet(
   row: SignupRow,
 ): Promise<AppendGoogleSheetResult> {
-  const required = readRequiredEnv([
-    "GOOGLE_SERVICE_ACCOUNT_FILE",
-    "GOOGLE_SHEET_SPREADSHEET_ID",
-    "GOOGLE_SHEET_RANGE",
-  ]);
-  if (!required) return { status: "skipped" };
+  if (!hasGoogleSheetsEnv()) return { status: "skipped" };
 
-  const serviceAccountFile = process.env.GOOGLE_SERVICE_ACCOUNT_FILE as string;
   const spreadsheetId = process.env.GOOGLE_SHEET_SPREADSHEET_ID as string;
   const range = process.env.GOOGLE_SHEET_RANGE as string;
 
   try {
-    if (!serviceAccountFile) return { status: "skipped" };
     const sheets = getSheetsClient();
 
     const nowIso = new Date().toISOString();
@@ -109,12 +127,7 @@ export type GetGoogleCohortsResult =
   | { status: "error"; error: string };
 
 export async function getCohortsFromGoogleSheet(): Promise<GetGoogleCohortsResult> {
-  const required = readRequiredEnv([
-    "GOOGLE_SERVICE_ACCOUNT_FILE",
-    "GOOGLE_SHEET_SPREADSHEET_ID",
-    "GOOGLE_SHEET_RANGE",
-  ]);
-  if (!required) return { status: "skipped" };
+  if (!hasGoogleSheetsEnv()) return { status: "skipped" };
 
   const spreadsheetId = process.env.GOOGLE_SHEET_SPREADSHEET_ID as string;
   const range = process.env.GOOGLE_SHEET_RANGE as string;
