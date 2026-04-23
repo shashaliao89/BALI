@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export function Footer() {
   return (
     <footer className="bg-[#2b3538] px-6 py-8 text-[#dfe6e6] md:px-12 md:py-10">
@@ -10,6 +12,18 @@ export function Footer() {
           行程聯繫與報名用途；不會在未經同意的情況下對外販售或提供予第三方。若需刪除或修改資料，請透過
           Instagram 與我們聯繫。
         </p>
+        <div className="mt-6 flex flex-col items-center gap-3">
+          <p className="font-sans text-sm tracking-wide text-[#dfe6e6]/85">
+            STEPC獨家代理
+          </p>
+          <Image
+            src="/logo english.png"
+            alt="STEPC logo"
+            width={190}
+            height={52}
+            className="h-auto w-[190px]"
+          />
+        </div>
       </div>
     </footer>
   );

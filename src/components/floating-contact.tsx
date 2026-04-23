@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const IG = "https://www.instagram.com/stepc_carnival/";
 
 export function FloatingContact() {
@@ -14,7 +16,14 @@ export function FloatingContact() {
         className="inline-block h-2 w-2 shrink-0 rounded-full bg-[#5f777a]"
         aria-hidden
       />
-      與 STEPC 團隊聯絡
+      與 STEPC 聯絡
+      <Image
+        src="/logooo.png"
+        alt="STEPC mini logo"
+        width={16}
+        height={16}
+        className="h-4 w-4 rounded-sm object-contain"
+      />
     </a>
   );
 }

@@ -13,15 +13,13 @@ import {
 } from "@/components/ui/dialog";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { MAX_CAPACITY, MIN_GROUP_SIZE } from "@/lib/booking-config";
 
 const fetcher = (url: string) =>
   fetch(url).then((r) => r.json()) as Promise<{
     cohorts: Cohort[];
     source?: string;
   }>;
-
-const MAX_CAPACITY = 25;
-const MIN_GROUP_SIZE = 17;
 
 type BookingStatus = "available" | "tight" | "full";
 
@@ -390,7 +388,7 @@ export function BookingModule() {
                   <input
                     type="number"
                     min={1}
-                    max={25}
+                    max={MAX_CAPACITY}
                     className="mt-1.5 w-full border border-[#8B4513]/15 bg-white/70 px-3 py-2.5 font-sans text-[#3d3428] outline-none transition focus:border-[#8f6b3f] focus:bg-white"
                     value={form.notes}
                     onChange={(e) =>

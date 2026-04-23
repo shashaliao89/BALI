@@ -1,4 +1,5 @@
 import { FadeIn } from "@/components/motion-section";
+import { MAX_CAPACITY, MIN_GROUP_SIZE } from "@/lib/booking-config";
 
 const SCHEDULE = [
   { day: "Day1", time: "07:30 - 08:30", activity: "陰瑜珈 (Yin Yoga)" },
@@ -91,10 +92,10 @@ export function ItineraryDetails() {
                 <li>
                   非包場方案：
                   <span className="font-semibold"> NTD 36,000 / 人</span>
-                  （最低成行人數 17 人，上限 25 人）
+                  （最低成行人數 {MIN_GROUP_SIZE} 人，上限 {MAX_CAPACITY} 人）
                 </li>
                 <li className="text-[#5b6363]">
-                  出發前 15 天若人數未滿，則另外私訊通知。
+                  出發前 30 天若人數未滿，則另外私訊通知。
                 </li>
               </ul>
             </div>

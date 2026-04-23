@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { appendSignupToGoogleSheet } from "@/lib/google-sheets";
+import { MAX_CAPACITY } from "@/lib/booking-config";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,10 @@ export async function POST(req: Request) {
   const { cohortLabel, name, phone, lineId, email, notes, participantCount } = body;
   const count = Math.max(
     1,
-    Math.min(25, Number.isFinite(participantCount) ? Math.floor(participantCount as number) : 1),
+    Math.min(
+      MAX_CAPACITY,
+      Number.isFinite(participantCount) ? Math.floor(participantCount as number) : 1,
+    ),
   );
   if (
     !cohortLabel?.trim() ||

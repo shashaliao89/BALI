@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import { google } from "googleapis";
 import { buildCohort } from "@/lib/cohort-logic";
+import { MAX_CAPACITY } from "@/lib/booking-config";
 import type { Cohort } from "@/types/cohort";
 
 export type AppendGoogleSheetResult =
@@ -17,7 +18,6 @@ export type SignupRow = {
   notes?: string;
 };
 
-const MAX_CAPACITY = 25;
 const DEFAULT_COHORT_LABELS = [
   "JUNE 8 – 9, 2026",
   "JUNE 15 – 16, 2026",
@@ -155,12 +155,9 @@ export async function getCohortsFromGoogleSheet(): Promise<GetGoogleCohortsResul
 
     const cohorts = [...totals.entries()].map(([label, registered]) =>
       buildCohort(`gs-${label}`, label, MAX_CAPACITY, registered),
-    );
-
-    return { status: "ok", cohorts };
+    );    return { status: "ok", cohorts };
   } catch (e) {
     const message = e instanceof Error ? e.message : "Google Sheets fetch failed";
     return { status: "error", error: message };
   }
 }
-
